@@ -1,0 +1,27 @@
+﻿<!-- Views/Home/LoginView.cshtml -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+
+    @if (TempData["Message"] != null)
+    {
+        <p>@TempData["Message"]</p>
+    }
+
+    <form method="post" action="@Url.Action("Login", "Home")">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

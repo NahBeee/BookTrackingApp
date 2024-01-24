@@ -1,4 +1,9 @@
-// Program.cs
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -8,8 +13,17 @@ builder.Services.AddHttpClient("UdacityBooksAPI", client =>
     client.DefaultRequestHeaders.Add("Authorization", "whatever-you-want");
 });
 
-builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout as needed
+});
+builder.Services.AddControllersWithViews();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Home/LoginView"; // Set the login page
+    });
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -23,6 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 

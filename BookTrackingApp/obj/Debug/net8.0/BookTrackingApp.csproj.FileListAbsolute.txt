@@ -66,3 +66,4 @@ D:\Job\BookTrackingApp\BookTrackingApp\obj\Debug\net8.0\refint\BookTrackingApp.d
 D:\Job\BookTrackingApp\BookTrackingApp\obj\Debug\net8.0\BookTrackingApp.pdb
 D:\Job\BookTrackingApp\BookTrackingApp\obj\Debug\net8.0\BookTrackingApp.genruntimeconfig.cache
 D:\Job\BookTrackingApp\BookTrackingApp\obj\Debug\net8.0\ref\BookTrackingApp.dll
+D:\Job\BookTrackingApp\BookTrackingApp\obj\Debug\net8.0\BookTrackingApp.sourcelink.json

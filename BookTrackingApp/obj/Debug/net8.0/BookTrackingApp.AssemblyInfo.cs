@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookTrackingApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff90b1da72522aeaa7380e2de1f8aaee620210be")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookTrackingApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookTrackingApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

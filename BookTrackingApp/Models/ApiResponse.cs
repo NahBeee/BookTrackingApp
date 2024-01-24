@@ -18,4 +18,10 @@
         public string SmallThumbnail { get; set; }
         public string Thumbnail { get; set; }
     }
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
 }

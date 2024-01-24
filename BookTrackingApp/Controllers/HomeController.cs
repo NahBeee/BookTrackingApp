@@ -5,6 +5,10 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Collections.Generic;
 using BookTrackingApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace BookTrackingApp.Controllers
 {
@@ -12,26 +16,81 @@ namespace BookTrackingApp.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private List<Book> _userBookList = new List<Book>(); // New list to store user's books
+        private static readonly List<User> Users = new List<User>
+        {
+            new User { Username = "user1", Password = "password1" },
+            new User { Username = "user2", Password = "password2" }
+        };
+        public IActionResult Login(string username, string password)
+        {
+            var user = Users.FirstOrDefault(u => u.Username == username && u.Password == password);
 
+            if (user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    // Add other claims as needed...
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Invalid username or password";
+                return RedirectToAction("LoginView");
+            }
+        }
+
+        [AllowAnonymous]
+        public IActionResult LoginView()
+        {
+            // Check if the user is already authenticated
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                // Redirect to the Index action if authenticated
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
+        }
         public HomeController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
-
+        [Authorize]
         public async Task<IActionResult> Index(string searchTitle)
         {
-            var httpClient = _httpClientFactory.CreateClient("UdacityBooksAPI");
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                var httpClient = _httpClientFactory.CreateClient("UdacityBooksAPI");
 
-            // Fetch the entire list of books from the API
-            var response = await httpClient.GetStringAsync("/books");
-            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response);
+                // Fetch the entire list of books from the API
+                var response = await httpClient.GetStringAsync("/books");
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response);
 
-            // Filter books based on the search title
-            var filteredBooks = string.IsNullOrWhiteSpace(searchTitle)
-                ? apiResponse.Books
-                : apiResponse.Books.Where(b => b.Title.Contains(searchTitle, StringComparison.OrdinalIgnoreCase)).ToList();
+                // Filter books based on the search title
+                var filteredBooks = string.IsNullOrWhiteSpace(searchTitle)
+                    ? apiResponse.Books
+                    : apiResponse.Books.Where(b => b.Title.Contains(searchTitle, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            return View(filteredBooks);
+                return View(filteredBooks);
+            }
+            else
+            {
+                return RedirectToAction("LoginView");
+            }
+            
         }
 
         [HttpPost]
@@ -117,5 +176,7 @@ namespace BookTrackingApp.Controllers
             // Redirect back to the AddedBooks action
             return RedirectToAction("AddedBooks");
         }
+        
+
     }
 }
