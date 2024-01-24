@@ -1,0 +1,99 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+/*AddedBook CSS*/
+/* wwwroot/css/site.css */
+
+/* wwwroot/css/site.css */
+
+.book-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.book {
+    width: auto; /* Allow the container to stretch based on the content */
+    max-width: 33.33%; /* Set a maximum width to maintain layout */
+    margin-right: 10px;
+    margin-bottom: 20px; /* Adjust margin-bottom to create space between rows */
+    position: relative;
+}
+
+.image-container {
+    overflow: hidden; /* Hide overflowing content to prevent box shadow on white space */
+}
+
+    .image-container img {
+        width: 191px;
+        height: 252px;
+        object-fit: cover; /* Maintain aspect ratio and cover the container */
+        display: block; /* Remove extra space beneath inline images */
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 1); /* Apply box shadow to the image */
+    }
+
+.book-info {
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Ensure book-info is displayed above the image */
+}
+
+.book-title {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333; /* Adjust text color for better readability */
+}
+
+.author {
+    margin-top: 5px;
+    color: #555; /* Adjust text color for better readability */
+}
+
+.remove-button {
+    background-color: #dc3545; /* Bootstrap danger color */
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.remove-button-label {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Add more styles as needed */
+
+@media (max-width: 768px) {
+    .book {
+        width: 100% !important;
+        max-width: none !important; /* Remove maximum width for smaller screens */
+        margin-right: 0 !important;
+    }
+}

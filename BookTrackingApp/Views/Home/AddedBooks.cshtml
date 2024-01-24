@@ -1,0 +1,41 @@
+﻿<!-- Views/Home/AddedBooks.cshtml -->
+@model List<Book>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Added Books</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <h2>Books Added by the User</h2>
+
+    <div class="book-container">
+        @foreach (var book in Model)
+        {
+            <div class="book">
+                <div class="image-container">
+                    <img src="@(book.ImageLinks?.SmallThumbnail ?? "")" alt="Book Image">
+                </div>
+                <div class="book-info">
+                    <div class="book-title">@book.Title</div>
+                    <div class="author">@string.Join(", ", book.Authors)</div>
+                    @if (string.IsNullOrEmpty(book.ImageLinks?.SmallThumbnail))
+                    {
+                        <p>No Image</p>
+                    }
+                    <form asp-action="RemoveBook" asp-controller="Home" method="post">
+                        <input type="hidden" name="id" value="@book.Id" />
+                        <button type="submit" class="remove-button">
+                            <span class="remove-button-label">-</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+
+    <a asp-action="Index" asp-controller="Home">Back to Book List</a>
+</body>
+</html>

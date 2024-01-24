@@ -1,0 +1,43 @@
+﻿<!-- Views/Home/Index.cshtml -->
+@model List<Book>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+
+<h2>Book List</h2>
+
+<form asp-action="Index" asp-controller="Home" method="get">
+    <label for="searchTitle">Search by Title:</label>
+    <input type="text" id="searchTitle" name="searchTitle" />
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Authors</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@string.Join(", ", book.Authors)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="AddBook" asp-controller="Home" method="post">
+    <label for="titleToAdd">Book Title to Add:</label>
+    <input type="text" id="titleToAdd" name="title" />
+    <button type="submit">Add Book</button>
+</form>
+
