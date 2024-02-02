@@ -16,13 +16,17 @@ builder.Services.AddHttpClient("UdacityBooksAPI", client =>
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Home/LoginView"; // Set the login page
+        options.AccessDeniedPath = "/Home/LoginView";
+        options.LogoutPath = "/Home/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
     });
 var app = builder.Build();
 
@@ -43,6 +47,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=LoginView}/{id?}");
 
 app.Run();

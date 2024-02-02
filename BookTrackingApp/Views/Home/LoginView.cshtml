@@ -9,9 +9,9 @@
 <body>
     <h2>Login</h2>
 
-    @if (TempData["Message"] != null)
+    @if (TempData["Message2"] != null)
     {
-        <p>@TempData["Message"]</p>
+        <p>@TempData["Message2"]</p>
     }
 
     <form method="post" action="@Url.Action("Login", "Home")">
